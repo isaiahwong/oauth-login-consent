@@ -1,0 +1,24 @@
+@import '../../../assets/styles/variables';
+.light {
+  border: 1px solid #1820D3;
+  color: #1820D3;
+  background: #fff;
+  font-size: $font-size-sm;
+  height: 40px;
+  border-radius: 10px;
+  padding-left: 15px;
+}
+
+.light::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: rgba(24, 33, 211, 0.637);
+  font-family: "Sailec", Helvetica, Arial, sans-serif !important;    
+}
+
+.light:focus {
+  outline:none;
+}
+
+.form-error {
+  color: #d93025;
+  font-size: $font-size-sm;
+}

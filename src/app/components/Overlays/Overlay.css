@@ -1,0 +1,13 @@
+.blackOverlay {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    opacity: 1;
+    top: 0;
+    left: auto;
+    background: rgba(0,0,0,.35);
+    content: "";
+    z-index: 10;
+    overflow-x: hidden;
+    transition: all .37s ease-in;
+}

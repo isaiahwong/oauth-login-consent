@@ -1,0 +1,6 @@
+{
+  "name": "SideBarLayout",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./SideBarLayout.js"
+}

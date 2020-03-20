@@ -1,0 +1,23 @@
+.btn {
+  cursor: pointer;
+  &hover {
+      transition: background-color .35s ease-in-out !important;
+  }
+}
+
+.blue-btn {
+  color: #fff;
+  background-color: #1820D3;
+  border-radius: 10px;
+  font-weight: 400;
+  height: 50px;
+  letter-spacing: 1px;
+
+  &:hover {
+      background-color: #232044;
+  }
+}
+
+.blue-btn:focus {
+  outline:none;
+}

@@ -1,0 +1,21 @@
+@import './fonts.scss';
+@import './variables.scss';
+
+html {
+  color: #222;
+  font-weight: 100;
+  font-size: 1em; /* ~16px; */
+  line-height: 1.375; /* ~22px */
+}
+
+body {
+  margin: 0;
+  font-family: $font-family-base!important;
+  font-weight: 400;
+  overflow-x: hidden;
+}
+
+.link {
+  color: #101BCC;
+  text-decoration: underline;
+}

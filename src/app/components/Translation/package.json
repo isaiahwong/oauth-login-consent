@@ -1,0 +1,6 @@
+{
+  "name": "Translation",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Translation.js"
+}

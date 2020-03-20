@@ -1,0 +1,33 @@
+ @import '../../assets/styles/variables.css';
+
+.root {
+  background: #031b4e;
+  color: #fff;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 20px 15px;
+  max-width: var(--max-content-width);
+  text-align: center;
+}
+
+.text {
+  color: white;
+  font-weight: 300;
+}
+.text,
+.link {
+  padding: 2px 5px;
+  font-size: 0.8rem;
+}
+
+.link,
+.link:active,
+.link:visited {
+  text-decoration: none;
+}
+
+.link:hover {
+  color: rgba(255, 255, 255, 1);
+}

@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package api.payment.v1;
+
+option go_package = "payment";
+
+message ApplicationContext {
+  string landing_page = 1;
+  string return_url = 2;
+  string cancel_url = 3;
+}

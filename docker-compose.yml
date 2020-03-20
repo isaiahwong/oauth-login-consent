@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+  hydra:
+    image: oryd/hydra:latest
+    ports:
+      - "4444:4444" # Public port
+      - "4445:4445" # Admin port
+      - "5555:5555" # Port for hydra token user
+    command:
+      serve all --dangerous-force-http
+    environment:
+      - URLS_SELF_ISSUER=http://127.0.0.1:4444
+      - URLS_CONSENT=http://127.0.0.1:3000/auth/consent
+      - URLS_LOGIN=http://127.0.0.1:3000/auth/login
+      - URLS_LOGOUT=http://127.0.0.1:3000/auth/logout
+      - DSN=memory
+      - SECRETS_SYSTEM=youReallyNeedToChangeThis
+      - OIDC_SUBJECT_IDENTIFIERS_SUPPORTED_TYPES=public,pairwise
+      - OIDC_SUBJECT_IDENTIFIERS_PAIRWISE_SALT=youReallyNeedToChangeThis
+    restart: unless-stopped
+
+  accounts-store:
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    ports:
+        - 27017:27017
+
+  accounts-service:
+    image: registry.gitlab.com/isaiahwong/cluster/api/accounts:latest
+    environment:
+      - APP_ENV=production
+      - ADDRESS=:50051
+      
+      - DB_URI=mongodb://accounts-store:27017
+      - DATABASE=accounts
+      - DB_TIMEOUT=10
+      - DB_INITIAL_TIMEOUT=3
+
+      - HYDRA_ADMIN_URL=http://hydra:4445
+
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+
+      - GOOGLE_RECAPTCHA_URL=https://www.google.com/recaptcha/api/siteverify
+      - GOOGLE_RECAPTCHA_SECRET=yoursitekey
+    depends_on:
+      - accounts-store
+    links: 
+      - accounts-store
+    restart: unless-stopped
+
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.dev
+    env_file: ./.env
+    environment:
+      - HYDRA_ADMIN_URL=http://hydra:4445
+    volumes:
+      - /app/node_modules
+      - ./src:/app/src
+    ports:
+      - '3000:3000'
+    restart: unless-stopped

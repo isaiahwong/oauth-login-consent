@@ -1,0 +1,7 @@
+@import '../../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
+@media (min-width: 992px) {
+  .large-container {
+    max-width: 2000px !important;
+  }
+}
