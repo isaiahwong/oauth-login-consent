@@ -16,10 +16,9 @@ const defaultRetries = {
 };
 
 class AccountsService extends Client {
-  static getMetadataHeaders(req) {
+  static getMetadataHeaders(headers = {}, match = {}) {
     const metadata = new grpc.Metadata();
-    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    const headers = { ...req.headers, method: req.method, 'x-forwarded-for': ip };
+
     Object.keys(headers).forEach((k) => {
       if (!headers[k]) {
         return;
@@ -27,7 +26,14 @@ class AccountsService extends Client {
       const v = typeof headers[k] === 'object'
         ? JSON.stringify(headers[k])
         : headers[k];
-      metadata.set(k, v);
+      if (match) {
+        if (typeof match[k] !== 'undefined') {
+          metadata.set(k, v);
+        }
+      }
+      else {
+        metadata.set(k, v);
+      }
     });
     return metadata;
   }
@@ -37,11 +43,13 @@ class AccountsService extends Client {
     serviceURL = 'accounts-service:50051',
     packageDef = 'api.accounts.v1',
     includeDirs = INCLUDES,
+    deadline,
   } = {}) {
     super(protoPath, packageDef, {
       ...defaultRetries,
       serviceURL,
       includeDirs,
+      deadline
     });
   }
 }

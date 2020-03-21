@@ -84,15 +84,16 @@ class GrpcClient {
 
     this._genFnDef();
     this._setupConnectionMiddleware();
-    this._waitForReady();
   }
 
   static _loadClient(proto, service, serviceURL) {
     if (!proto || !proto[service]) {
       throw new InternalServerError(`Error loading ${service} from proto`);
     }
-
-    const client = new proto[service](serviceURL, grpc.credentials.createInsecure());
+    const client = new proto[service](
+      serviceURL,
+      grpc.credentials.createInsecure()
+    );
 
     if (!client) {
       throw new InternalServerError(`Error instantiating ${service} client`);
@@ -259,13 +260,17 @@ class GrpcClient {
     }
   }
 
-  _waitForReady() {
-    this.client.waitForReady(Date.now() + this.deadline, (err) => {
-      if (err) {
-        throw new InternalServerError(err);
-      }
-      logger.info(`Connected to ${this.service}`);
-      this.ready = true;
+  connect() {
+    return new Promise((accept, reject) => {
+      this.client.waitForReady(Date.now() + this.deadline, (err) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        logger.info(`Connected to ${this.service}`);
+        this.ready = true;
+        accept();
+      });
     });
   }
 

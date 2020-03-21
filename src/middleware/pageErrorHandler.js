@@ -28,7 +28,7 @@ function Provider(component, css) {
 
 // eslint-disable-next-line no-unused-vars
 export default function pageErrorHandler(err, req, res, next) {
-  logger.error(pe.render(err));
+  logger.error(__PROD__ ? err : pe.render(err));
   let page = null;
 
   if (__PROD__) {
@@ -56,6 +56,6 @@ export default function pageErrorHandler(err, req, res, next) {
       disableStore
     />
   );
-  res.status(err.status || 500);
+  res.status(__PROD__ ? 404 : err.status || 500);
   res.send(`<!doctype html>${html}`);
 }

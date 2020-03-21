@@ -1,3 +1,4 @@
+/* eslint-disable quote-props */
 /* eslint-disable import/prefer-default-export */
 import url from 'url';
 import express from 'express';
@@ -11,16 +12,48 @@ import AccountsService from '../oauth/service';
 const app = express();
 let service;
 
-export function initService() {
+const matchHeaders = {
+  'user-agent': 1,
+  'cookie': 1,
+  'x-forwarded-for': 1,
+  'login-challenge': 1,
+  'captcha-response': 1,
+  'accept-language': 1,
+  'accept-encoding': 1,
+  'x-forwarded-client-cert': 1,
+  'x-request-id': 1,
+  'x-b3-traceid': 1,
+  'x-b3-spanId': 1,
+  'x-b3-parentspanid': 1,
+  'x-b3-sampled': 1,
+  'x-b3-flags': 1,
+  'b3': 1,
+};
+
+function getIP(req) {
+  return req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+}
+
+export async function initService() {
   if (!service) {
-    service = new AccountsService();
+    service = new AccountsService({
+      serviceURL: process.env.ACCOUNTS_SERVICE_ADDR,
+      deadline: parseInt(process.env.ACCOUNTS_SERVICE_DEADLINE, 10) // 10 sec
+    });
+    try {
+      await service.connect();
+    }
+    catch (err) {
+      logger.error(err);
+    }
   }
 }
 
 async function isAuthenticated(challenge, req, res, next) {
   try {
     req.headers['login-challenge'] = challenge;
-    const metadata = AccountsService.getMetadataHeaders(req);
+    req.headers['x-forward-for'] = getIP(req);
+    const metadata = AccountsService.getMetadataHeaders(req.headers, matchHeaders);
     const resp = await service.loginWithChallenge(null, metadata);
     if (!resp.skip) {
       req.login_challenge = challenge;
@@ -44,7 +77,8 @@ app.get('/auth/login', async (req, res, next) => {
   }
   try {
     req.headers['login-challenge'] = challenge;
-    const metadata = AccountsService.getMetadataHeaders(req);
+    req.headers['x-forward-for'] = getIP(req);
+    const metadata = AccountsService.getMetadataHeaders(req.headers, matchHeaders);
     const resp = await service.loginWithChallenge(null, metadata);
     if (!resp.skip) {
       res.redirect(`/accounts/login?lc=${challenge}`);
@@ -62,7 +96,8 @@ app.get('/accounts/login', (req, res, next) => {
   const { query } = url.parse(req.url, true);
   const challenge = query.lc;
   if (!challenge) {
-    throw new Error('Invalid challenge');
+    next(new Error('Invalid challenge'));
+    return;
   }
   isAuthenticated(challenge, req, res, next);
 });
@@ -103,8 +138,8 @@ app.post('/accounts/login', async (req, res) => {
   try {
     req.headers['captcha-response'] = req.body.captcha_token;
     req.headers['login-challenge'] = req.body.challenge;
-
-    const metadata = AccountsService.getMetadataHeaders(req);
+    req.headers['x-forward-for'] = getIP(req);
+    const metadata = AccountsService.getMetadataHeaders(req.headers, matchHeaders);
 
     const resp = await service.authenticate({
       email: req.body.email,
@@ -119,7 +154,7 @@ app.post('/accounts/login', async (req, res) => {
       return;
     }
     logger.error(err);
-    res.status(503).json();
+    res.status(403).json();
   }
 });
 
@@ -209,8 +244,8 @@ app.post('/accounts/signup', async (req, res) => {
   try {
     req.headers['captcha-response'] = req.body.captcha_token;
     req.headers['login-challenge'] = req.body.challenge;
-
-    const metadata = AccountsService.getMetadataHeaders(req);
+    req.headers['x-forward-for'] = getIP(req);
+    const metadata = AccountsService.getMetadataHeaders(req.headers, matchHeaders);
 
     // Validate Email
     let resp = await service.emailExists({ email: req.body.email }, metadata);
@@ -234,7 +269,7 @@ app.post('/accounts/signup', async (req, res) => {
   }
   catch (err) {
     logger.error(err);
-    res.status(503).json();
+    res.status(403).json();
   }
 });
 
@@ -243,7 +278,8 @@ app.get('/auth/consent', async (req, res, next) => {
   const challenge = query.consent_challenge;
   try {
     req.headers['consent-challenge'] = challenge;
-    const metadata = AccountsService.getMetadataHeaders(req);
+    req.headers['x-forward-for'] = getIP(req);
+    const metadata = AccountsService.getMetadataHeaders(req.headers, matchHeaders);
     const resp = await service.consentWithChallenge(null, metadata);
     res.redirect(resp.redirect_to);
   }

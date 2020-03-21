@@ -6,7 +6,7 @@ metadata:
 spec:
   ports:
   - name: http
-    port: 3000
+    port: 5000
     targetPort: oauth-port
   selector: 
     app: oauth-front
@@ -60,7 +60,7 @@ kind: ConfigMap
 metadata:
   name: oauth-front-env-configmap
 data:
-  NODE_ENV: "development"
+  NODE_ENV: "production"
   PORT: "5000"
   MAINTENANCE_MODE: "false"
   
@@ -75,8 +75,5 @@ data:
   SITE_NAME: "OAuth"
   DOMAIN: "isaiahwong.dev"
   OG_IMAGE: "/assets/images/bg.jpg"
-  HYDRA_ADMIN_URL: "http://hydra-service.default.svc.cluster.local:9001"
-  ACCOUNTS_SERVICE_ADDR: "api-accounts-v1-accountsservice.default.svc.cluster.local:5000"
-  ACCOUNTS_SERVICE_DEADLINE: "10000" #10 sec
-  # GRPC_TRACE: "all"
-  # GRPC_VERBOSITY: "DEBUG"
+  HYDRA_ADMIN_URL: http://hydra-service.default.svc.cluster.local:9001
+  

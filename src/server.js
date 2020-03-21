@@ -131,7 +131,7 @@ class Server {
     this.app.use(csrf({
       cookie: {
         key: '_t',
-        secure: __PROD__,
+        // secure: __PROD__,
         httpOnly: true,
       },
     }));

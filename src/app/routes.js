@@ -41,7 +41,10 @@ const routes = {
         }
       ]
     },
-
+    {
+      path: '/notfound',
+      load: () => import(/* webpackChunkName: 'not-found' */ './pages/not-found')
+    },
     // Wildcard routes, e.g. { path: '(.*)', ... } (must go last)
     {
       path: '(.*)',

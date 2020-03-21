@@ -59,6 +59,7 @@ services:
     env_file: ./.env
     environment:
       - HYDRA_ADMIN_URL=http://hydra:4445
+      - ACCOUNTS_SERVICE_ADDR=accounts-service:50051
     volumes:
       - /app/node_modules
       - ./src:/app/src
