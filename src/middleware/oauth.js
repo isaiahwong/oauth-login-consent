@@ -17,6 +17,7 @@ const matchHeaders = {
   'cookie': 1,
   'x-forwarded-for': 1,
   'login-challenge': 1,
+  'consent-challenge': 1,
   'captcha-response': 1,
   'accept-language': 1,
   'accept-encoding': 1,

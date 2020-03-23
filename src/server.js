@@ -12,7 +12,6 @@ import helmet from 'helmet';
 import logger from 'esther';
 import dotenv from 'dotenv';
 import csrf from 'csurf';
-// import assets from './asset-manifest.json'; // eslint-disable-line import/no-unresolved
 
 import router from './lib/router';
 import Isomorphic from './lib/isomorphic';
@@ -25,6 +24,7 @@ import oauth, { initService } from './middleware/oauth';
 import Html from './app/components/Html';
 import chunks from './chunk-manifest.json'; // eslint-disable-line import/no-unresolved
 import config from './config';
+// import assets from './asset-manifest.json'; // eslint-disable-line import/no-unresolved
 
 class Server {
   constructor() {
@@ -121,8 +121,7 @@ class Server {
     // Logs every request
     this.app.use(morgan);
 
-    // Register Node.js middleware
-    this.app.use(express.static(path.resolve(__dirname, 'public')));
+    this.app.use(process.env.PUBLIC_URL || '*', express.static(path.resolve(__dirname, 'public')));
     this.app.use(bodyParser.urlencoded({
       extended: true
     }));

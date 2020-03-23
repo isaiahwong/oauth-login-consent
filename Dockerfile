@@ -10,6 +10,7 @@ COPY ./package.json .
 RUN npm i
 WORKDIR .
 COPY . .
+ENV PUBLIC_URL=/accounts
 RUN npm run build -- --release
 
 FROM node:8-alpine
