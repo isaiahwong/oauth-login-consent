@@ -69,7 +69,7 @@ async function isAuthenticated(challenge, req, res, next) {
   }
 }
 
-app.get('/auth/login', async (req, res, next) => {
+app.get('/auth/login/challenge', async (req, res, next) => {
   const { query } = url.parse(req.url, true);
   // The challenge is used to fetch information about the login request from ORY Hydra.
   const challenge = query.login_challenge;
@@ -82,7 +82,7 @@ app.get('/auth/login', async (req, res, next) => {
     const metadata = AccountsService.getMetadataHeaders(req.headers, matchHeaders);
     const resp = await service.loginWithChallenge(null, metadata);
     if (!resp.skip) {
-      res.redirect(`/accounts/login?lc=${challenge}`);
+      res.redirect(`/auth/login?lc=${challenge}`);
       return;
     }
     res.redirect(resp.redirect_to);
@@ -93,7 +93,7 @@ app.get('/auth/login', async (req, res, next) => {
   }
 });
 
-app.get('/accounts/login', (req, res, next) => {
+app.get('/auth/login', (req, res, next) => {
   const { query } = url.parse(req.url, true);
   const challenge = query.lc;
   if (!challenge) {
@@ -103,7 +103,7 @@ app.get('/accounts/login', (req, res, next) => {
   isAuthenticated(challenge, req, res, next);
 });
 
-app.post('/accounts/login', async (req, res) => {
+app.post('/auth/login', async (req, res) => {
   const errors = check(req.body, {
     email: {
       isEmail: {
@@ -159,7 +159,7 @@ app.post('/accounts/login', async (req, res) => {
   }
 });
 
-app.get('/accounts/signup', (req, res, next) => {
+app.get('/auth/signup', (req, res, next) => {
   const { query } = url.parse(req.url, true);
   const challenge = query.lc;
   if (!challenge) {
@@ -169,7 +169,7 @@ app.get('/accounts/signup', (req, res, next) => {
   isAuthenticated(challenge, req, res, next);
 });
 
-app.post('/accounts/signup', async (req, res) => {
+app.post('/auth/signup', async (req, res) => {
   const errors = check(req.body, {
     first_name: {
       notEmpty: true,
@@ -274,7 +274,7 @@ app.post('/accounts/signup', async (req, res) => {
   }
 });
 
-app.get('/auth/consent', async (req, res, next) => {
+app.get('/auth/consent/challenge', async (req, res, next) => {
   const { query } = url.parse(req.url, true);
   const challenge = query.consent_challenge;
   try {

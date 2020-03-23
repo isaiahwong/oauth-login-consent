@@ -121,7 +121,7 @@ class Server {
     // Logs every request
     this.app.use(morgan);
 
-    this.app.use(process.env.PUBLIC_URL || '*', express.static(path.resolve(__dirname, 'public')));
+    this.app.use(process.env.PUBLIC_URL || '/auth', express.static(path.resolve(__dirname, 'public')));
     this.app.use(bodyParser.urlencoded({
       extended: true
     }));

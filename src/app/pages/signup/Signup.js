@@ -80,7 +80,7 @@ class Signup extends React.Component {
     if (!this.props.captchaResponse || !this.props.challenge || !this.props.csrf) {
       return;
     }
-    const resp = await this.props.fetch('/accounts/signup', {
+    const resp = await this.props.fetch('/auth/signup', {
       method: 'POST',
       headers: {
         'CSRF-Token': this.props.csrf

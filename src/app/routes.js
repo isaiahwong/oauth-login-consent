@@ -3,7 +3,7 @@
 
 export const routePaths = {
   auth: {
-    path: '/accounts',
+    path: '/auth',
     login: {
       title: 'Login',
       path: '/login',

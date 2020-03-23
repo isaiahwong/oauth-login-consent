@@ -74,10 +74,10 @@ data:
 
   SITE_NAME: "OAuth"
   DOMAIN: "isaiahwong.dev"
-  OG_IMAGE: "/accounts/assets/images/bg.jpg"
+  OG_IMAGE: "/assets/images/bg.jpg"
   HYDRA_ADMIN_URL: "http://hydra-service.default.svc.cluster.local:9001"
   ACCOUNTS_SERVICE_ADDR: "api-accounts-v1-accountsservice.default.svc.cluster.local:5000"
   ACCOUNTS_SERVICE_DEADLINE: "10000" #10 sec
-  PUBLIC_URL: "/accounts"
+  PUBLIC_URL: "/auth"
   # GRPC_TRACE: "all"
   # GRPC_VERBOSITY: "DEBUG"

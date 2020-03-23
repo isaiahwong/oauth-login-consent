@@ -31,7 +31,7 @@ spec:
       containers:
       - name: oauth-front
         image: registry.gitlab.com/isaiahwong/cluster/client/oauth
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - name: oauth-port
           containerPort: 5000
@@ -75,5 +75,7 @@ data:
   SITE_NAME: "OAuth"
   DOMAIN: "isaiahwong.dev"
   OG_IMAGE: "/assets/images/bg.jpg"
-  HYDRA_ADMIN_URL: http://hydra-service.default.svc.cluster.local:9001
-  
+  HYDRA_ADMIN_URL: "http://hydra-service.default.svc.cluster.local:9001"
+  ACCOUNTS_SERVICE_ADDR: "api-accounts-v1-accountsservice.default.svc.cluster.local:5000"
+  ACCOUNTS_SERVICE_DEADLINE: "10000" #10 sec
+  PUBLIC_URL: "/auth"

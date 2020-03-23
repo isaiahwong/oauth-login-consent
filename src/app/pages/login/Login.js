@@ -27,7 +27,7 @@ class Login extends React.Component {
     if (!this.captcha || !this.props.challenge || !this.props.csrf) {
       return;
     }
-    const resp = await this.props.fetch('/accounts/login', {
+    const resp = await this.props.fetch('/auth/login', {
       method: 'POST',
       headers: {
         'CSRF-Token': this.props.csrf
