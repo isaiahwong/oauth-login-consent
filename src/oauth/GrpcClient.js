@@ -27,11 +27,11 @@ class GrpcClient {
       deadline = Number.POSITIVE_INFINITY, // Seconds
       rpcMaxRetries = 5,
       rpcRetryInterval = 1500,
-      rpcDeadline = 15000
+      rpcDeadline = 15000,
     } = options;
 
     logger.init({
-      disableStackTrace: true
+      disableStackTrace: true,
     });
 
     let { serviceURL } = options;
@@ -42,7 +42,7 @@ class GrpcClient {
       throw new InternalServerError('packageDef undefined.');
     }
 
-    const proto = (!includeDirs || !includeDirs.length)
+    const proto = !includeDirs || !includeDirs.length
       ? grpcLoader.loadProto(protoPath)
       : grpcLoader.loadProto(protoPath, includeDirs);
     if (!proto) {
@@ -60,14 +60,18 @@ class GrpcClient {
 
     const service = Object.keys(depth)[0];
     if (!service || !depth[service] || !depth[service].service) {
-      throw new InternalServerError(`No service defined in ${protoPath}. Hint: Check your package Definition`);
+      throw new InternalServerError(
+        `No service defined in ${protoPath}. Hint: Check your package Definition`,
+      );
     }
     // Fall back to naming convention of service definition
     serviceURL = serviceURL || `${packageArr.join('-')}-${service.toLowerCase()}:50051`;
 
     const rpcDefs = depth[service].service;
     if (Object.keys(rpcDefs) === 0) {
-      throw new InternalServerError(`rpc definitions is not defined for ${protoPath}`);
+      throw new InternalServerError(
+        `rpc definitions is not defined for ${protoPath}`,
+      );
     }
 
     this.testConnection = this.testConnection.bind(this);
@@ -92,7 +96,7 @@ class GrpcClient {
     }
     const client = new proto[service](
       serviceURL,
-      grpc.credentials.createInsecure()
+      grpc.credentials.createInsecure(),
     );
 
     if (!client) {
@@ -110,7 +114,7 @@ class GrpcClient {
       return '';
     }
     const end = process.hrtime(start);
-    const nanoseconds = (end[0] * 1e9) + end[1];
+    const nanoseconds = end[0] * 1e9 + end[1];
     return nanoseconds / 1e6;
   }
 
@@ -143,7 +147,11 @@ class GrpcClient {
 
         this.client[fnDef](...args, (err, res) => {
           if (err) {
-            if (err.metadata && err.metadata.get && err.metadata.get('errors-bin').length) {
+            if (
+              err.metadata
+                && err.metadata.get
+                && err.metadata.get('errors-bin').length
+            ) {
               try {
                 const errors = decodeMetadata('errors', err.metadata);
                 // eslint-disable-next-line no-param-reassign
@@ -172,10 +180,11 @@ class GrpcClient {
       const initialFn = this[key].bind(this);
       this[key] = (...args) => this.testConnection((extend) => {
         const options = args[2];
-        if (extend
-          && options
-          && options.deadline
-          && typeof options.deadline === 'number'
+        if (
+          extend
+            && options
+            && options.deadline
+            && typeof options.deadline === 'number'
         ) {
           // extends grpc calld deadline
           // eslint-disable-next-line no-param-reassign
@@ -189,14 +198,16 @@ class GrpcClient {
   createRequest(request) {
     let _id = request && request.id;
     if (!this.requests[_id]) {
-      _id = Math.random().toString(36).substr(2, 9);
+      _id = Math.random()
+        .toString(36)
+        .substr(2, 9);
       this.requests[_id] = {
         id: _id,
         maxRetries: this.rpcMaxRetries,
         retries: 0,
         retry() {
           this.retries += 1;
-        }
+        },
       };
     }
     return this.requests[_id];
@@ -217,8 +228,8 @@ class GrpcClient {
     }
     try {
       if (!this.ready) {
-        const err = new Error('Connection is not ready');
-        throw err;
+        // try to connect
+        await this.connect();
       }
       const res = await cb();
       return res;
@@ -232,7 +243,7 @@ class GrpcClient {
       const start = GrpcClient.recordStartTime();
 
       return new Promise((resolve, reject) => {
-        const connect = (existingRequest) => {
+        const retry = (existingRequest) => {
           const request = this.createRequest(existingRequest);
           const channel = this.client.getChannel();
           const state = channel.getConnectivityState(true);
@@ -247,15 +258,17 @@ class GrpcClient {
           request.retry();
           if (this._verbose) logger.info(request);
           if (request.retries >= request.maxRetries) {
-            const unavailableErr = new ServiceUnavailable(`${this.service} unreachable. Max tries: ${request.maxRetries}`);
+            const unavailableErr = new ServiceUnavailable(
+              `${this.service} unreachable. Max tries: ${request.maxRetries}`,
+            );
             this.resolveRequest(request);
             return reject(unavailableErr);
           }
           // calls fn recursively
-          setTimeout(() => connect(request), this.rpcRetryInterval);
+          setTimeout(() => retry(request), this.rpcRetryInterval);
           return null;
         };
-        connect();
+        retry();
       });
     }
   }
@@ -275,14 +288,14 @@ class GrpcClient {
   }
 
   /**
-  * Setup a fns to be called before each grpc call
-  * @param {*} proto
-  * @param {Object} options
-  * @param {String} options._package Proto package name
-  * @param {String} options.service Proto service name
-  * @param {Array} options.middlewares Middleware fns
-  * @param {Array} options.fnAddOns Additional fns that you want to include to middleware
-  */
+   * Setup a fns to be called before each grpc call
+   * @param {*} proto
+   * @param {Object} options
+   * @param {String} options._package Proto package name
+   * @param {String} options.service Proto service name
+   * @param {Array} options.middlewares Middleware fns
+   * @param {Array} options.fnAddOns Additional fns that you want to include to middleware
+   */
   // _setupMiddleware(proto, options) {
   //   let { fnAddOns, middlewares } = options;
 

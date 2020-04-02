@@ -133,7 +133,7 @@ app.post('/auth/login', async (req, res) => {
     }
   });
   if (errors) {
-    res.status(403).json(errors);
+    res.status(401).json(errors);
     return;
   }
   try {
@@ -151,7 +151,7 @@ app.post('/auth/login', async (req, res) => {
   }
   catch (err) {
     if (err.errors) {
-      res.status(403).json(err.errors);
+      res.status(401).json(err.errors);
       return;
     }
     logger.error(err);
