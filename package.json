@@ -50,7 +50,6 @@
     "redux-thunk": "^2.3.0",
     "serialize-javascript": "^2.1.2",
     "source-map-support": "^0.5.13",
-    "three": "^0.104.0",
     "universal-router": "^6.0.0",
     "validator": "^12.2.0",
     "whatwg-fetch": "^3.0.0"

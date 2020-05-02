@@ -241,6 +241,7 @@ app.post('/auth/signup', async (req, res) => {
   });
   if (errors) {
     res.status(403).json(errors);
+    return;
   }
   try {
     req.headers['captcha-response'] = req.body.captcha_token;
