@@ -53,7 +53,7 @@ export async function initService() {
 async function isAuthenticated(challenge, req, res, next) {
   try {
     req.headers['login-challenge'] = challenge;
-    req.headers['x-forward-for'] = getIP(req);
+    req.headers['x-forwarded-for'] = getIP(req);
     const metadata = AccountsService.getMetadataHeaders(req.headers, matchHeaders);
     const resp = await service.loginWithChallenge(null, metadata);
     if (!resp.skip) {
@@ -78,7 +78,7 @@ app.get('/auth/login/challenge', async (req, res, next) => {
   }
   try {
     req.headers['login-challenge'] = challenge;
-    req.headers['x-forward-for'] = getIP(req);
+    req.headers['x-forwarded-for'] = getIP(req);
     const metadata = AccountsService.getMetadataHeaders(req.headers, matchHeaders);
     const resp = await service.loginWithChallenge(null, metadata);
     if (!resp.skip) {
@@ -139,7 +139,7 @@ app.post('/auth/login', async (req, res) => {
   try {
     req.headers['captcha-response'] = req.body.captcha_token;
     req.headers['login-challenge'] = req.body.challenge;
-    req.headers['x-forward-for'] = getIP(req);
+    req.headers['x-forwarded-for'] = getIP(req);
     const metadata = AccountsService.getMetadataHeaders(req.headers, matchHeaders);
 
     const resp = await service.authenticate({
@@ -246,7 +246,7 @@ app.post('/auth/signup', async (req, res) => {
   try {
     req.headers['captcha-response'] = req.body.captcha_token;
     req.headers['login-challenge'] = req.body.challenge;
-    req.headers['x-forward-for'] = getIP(req);
+    req.headers['x-forwarded-for'] = getIP(req);
     const metadata = AccountsService.getMetadataHeaders(req.headers, matchHeaders);
 
     // Validate Email
@@ -280,7 +280,7 @@ app.get('/auth/consent/challenge', async (req, res, next) => {
   const challenge = query.consent_challenge;
   try {
     req.headers['consent-challenge'] = challenge;
-    req.headers['x-forward-for'] = getIP(req);
+    req.headers['x-forwarded-for'] = getIP(req);
     const metadata = AccountsService.getMetadataHeaders(req.headers, matchHeaders);
     const resp = await service.consentWithChallenge(null, metadata);
     res.redirect(resp.redirect_to);
