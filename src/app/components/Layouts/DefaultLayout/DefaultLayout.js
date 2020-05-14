@@ -5,7 +5,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/withStyles';
-import cn from 'classnames';
+// import cn from 'classnames';
 import Helmet from 'react-helmet';
 
 // external-global styles must be imported in your JS.
@@ -14,7 +14,7 @@ import s from './DefaultLayout.scss';
 
 import { showNavigation, toggleDesktopMode } from '../../../actions/controls';
 
-import Theme, { themeValue } from '../../Theme';
+import ThemeProvider from '../../Theme';
 import ErrorBoundary from '../../ErrorBoundary/ErrorBoundary';
 import BlackOverlay from '../../Overlays/BlackOverlay';
 
@@ -79,12 +79,15 @@ class DefaultLayout extends React.Component {
 
   render() {
     const {
-      showNav, showNavigation, pathname, desktopMode
+      showNav,
+      // showNavigation,
+      // pathname,
+      desktopMode
     } = this.props;
 
     return (
       <ErrorBoundary>
-        <Theme.Provider value={themeValue.light}>
+        <ThemeProvider>
           {this.Head()}
           <div className={s.layout}>
             <div className={s.main}>
@@ -95,7 +98,7 @@ class DefaultLayout extends React.Component {
             <BlackOverlay onClick={() => this.hideNavigation()} />
           ))
             || null}
-        </Theme.Provider>
+        </ThemeProvider>
       </ErrorBoundary>
     );
   }

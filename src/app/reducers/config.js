@@ -5,7 +5,7 @@ const initialState = {
   csrf: '',
   challenge: '',
   reCAPTCHASiteKey: '',
-  captchaResponse: ''
+  captchaResponse: '',
 };
 
 export default function config(state = initialState, action) {

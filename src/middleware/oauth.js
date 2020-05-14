@@ -39,7 +39,7 @@ export async function initService() {
   if (!service) {
     service = new AccountsService({
       serviceURL: process.env.ACCOUNTS_SERVICE_ADDR,
-      deadline: parseInt(process.env.ACCOUNTS_SERVICE_DEADLINE, 10) // 10 sec
+      deadline: parseInt(process.env.ACCOUNTS_SERVICE_DEADLINE || 10, 10) // 10 sec
     });
     try {
       await service.connect();

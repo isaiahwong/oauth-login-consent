@@ -33,6 +33,12 @@ export default {
     },
   },
 
+  theme: {
+    primaryColor: process.env.PRIMARY_COLOR || '#101BCC',
+    borderColor: process.env.BORDER_COLOR || '#1820d3',
+    logoURL: process.env.LOGO_URL,
+  },
+
   // Web analytics
   analytics: {
     // https://analytics.google.com/

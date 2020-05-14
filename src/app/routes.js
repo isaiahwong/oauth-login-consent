@@ -11,6 +11,10 @@ export const routePaths = {
     signup: {
       title: 'Signup',
       path: '/signup'
+    },
+    client: {
+      title: 'Client',
+      path: '/client/claims/noop'
     }
   },
 };
@@ -38,7 +42,11 @@ const routes = {
         {
           path: routePaths.auth.signup.path,
           load: () => import(/* webpackChunkName: 'signup' */ './pages/signup')
-        }
+        },
+        {
+          path: routePaths.auth.client.path,
+          load: () => import(/* webpackChunkName: 'clientauth' */ './pages/client')
+        },
       ]
     },
     {

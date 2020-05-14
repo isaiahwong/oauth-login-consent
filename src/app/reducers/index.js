@@ -5,6 +5,7 @@ import controls from './controls';
 import history from './history';
 import network from './network';
 import localization from './localization';
+import theme from './theme';
 
 export default combineReducers({
   form: formReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   config,
   controls,
   network,
+  theme,
   history,
 });

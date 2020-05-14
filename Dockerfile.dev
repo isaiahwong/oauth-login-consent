@@ -10,4 +10,5 @@ COPY ./package.json .
 RUN npm i
 WORKDIR .
 COPY . .
+ENV PUBLIC_URL=/
 cmd ["npm", "start"]

@@ -31,18 +31,18 @@ services:
   accounts-service:
     image: registry.gitlab.com/isaiahwong/cluster/api/accounts:latest
     environment:
-      - APP_ENV=production
+      - APP_ENV=development
       - ADDRESS=:50051
       
       - DB_URI=mongodb://accounts-store:27017
-      - DATABASE=accounts
+      - DB_NAME=accounts
       - DB_TIMEOUT=10
       - DB_INITIAL_TIMEOUT=3
 
       - HYDRA_ADMIN_URL=http://hydra:4445
 
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_USERNAME=admin
+      - MONGO_PASSWORD=password
 
       - GOOGLE_RECAPTCHA_URL=https://www.google.com/recaptcha/api/siteverify
       - GOOGLE_RECAPTCHA_SECRET=yoursitekey
@@ -60,6 +60,7 @@ services:
     environment:
       - HYDRA_ADMIN_URL=http://hydra:4445
       - ACCOUNTS_SERVICE_ADDR=accounts-service:50051
+      - PUBLIC_URL=/
     volumes:
       - /app/node_modules
       - ./src:/app/src

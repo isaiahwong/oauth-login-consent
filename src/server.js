@@ -55,7 +55,8 @@ class Server {
             csrf: req.csrfToken ? req.csrfToken() : null,
             challenge: req.login_challenge,
             reCAPTCHASiteKey: config.client.reCAPTCHASiteKey,
-          }
+          },
+          theme: config.theme,
         }
       });
 

@@ -1,13 +1,43 @@
+
+button, a {
+  outline: none; // this one
+}
+
 .btn {
   cursor: pointer;
+  outline: 0;
+  box-shadow: none;
+  border-color: transparent;
+
   &hover {
       transition: background-color .35s ease-in-out !important;
+  }
+  &active {
+    outline: none;
+    border: none;
+  }
+  &focus {
+    outline: 0;
+    border: 0;
   }
 }
 
 .blue-btn {
   color: #fff;
   background-color: #1820D3;
+  border-radius: 10px;
+  font-weight: 400;
+  height: 50px;
+  letter-spacing: 1px;
+
+  &:hover {
+      background-color: #232044;
+  }
+}
+
+._btn {
+  color: #fff;
+  // background-color: #1820D3;
   border-radius: 10px;
   font-weight: 400;
   height: 50px;

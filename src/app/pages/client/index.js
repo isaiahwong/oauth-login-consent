@@ -1,7 +1,7 @@
 /* eslint-disable import/no-dynamic-require */
 /* eslint-disable global-require */
 import React from 'react';
-import Signup from './Signup';
+import Client from './Client';
 import DefaultLayout from '../../components/Layouts/DefaultLayout/DefaultLayout';
 
 async function action({ store, fetch }) {
@@ -12,11 +12,11 @@ async function action({ store, fetch }) {
   } = store.getState();
 
   return {
-    title: 'Signup',
-    chunks: ['signup'],
+    title: 'Loading',
+    chunks: ['clientauth'],
     component: (
       <DefaultLayout>
-        <Signup
+        <Client
           fetch={fetch}
           csrf={csrf}
           reCAPTCHASiteKey={reCAPTCHASiteKey}

@@ -5,7 +5,11 @@ import Login from './Login';
 import DefaultLayout from '../../components/Layouts/DefaultLayout/DefaultLayout';
 
 async function action({ store, fetch }) {
-  const { config: { csrf, reCAPTCHASiteKey, challenge } } = store.getState();
+  const {
+    config: {
+      csrf, reCAPTCHASiteKey, challenge
+    }
+  } = store.getState();
   return {
     title: 'Login',
     chunks: ['login'],

@@ -49,7 +49,7 @@ docker-compose-recreate:
 docker-compose-down:
 	docker-compose -f docker-compose.yml -f quickstart-postgres.yml down
 
-compose-token:
+create-api-client:
 	docker-compose -f docker-compose.yml exec hydra \
     hydra clients create \
     --endpoint http://127.0.0.1:4445 \
@@ -60,7 +60,17 @@ compose-token:
     --scope openid,offline \
     --callbacks http://127.0.0.1:5555/callback
 
-compose-client:
+	docker-compose -f docker-compose.yml exec hydra \
+    hydra clients create \
+    --endpoint http://127.0.0.1:4445 \
+    --id auth-code-client-2 \
+    --secret secret \
+    --grant-types authorization_code,refresh_token \
+    --response-types code,id_token \
+    --scope openid,offline \
+    --callbacks	http://127.0.0.1:3000/auth/clients/claims/noop
+
+start-oauth-client:
 	docker-compose -f docker-compose.yml exec hydra \
 	hydra token user \
 	--client-id auth-code-client-2 \
@@ -68,3 +78,4 @@ compose-client:
 	--endpoint http://127.0.0.1:4444/ \
 	--port 5555 \
 	--scope openid,offline
+	

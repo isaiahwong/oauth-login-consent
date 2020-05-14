@@ -7,6 +7,7 @@ import { SubmissionError } from 'redux-form';
 
 import { staticPaths } from '../../routes';
 
+import withThemeProvider from '../../components/Theme/withThemeContext';
 import loadReCaptcha from '../../components/ReCAPTCHA';
 import { Row, Tag } from '../../components/Bootstrap/Grid';
 import LoginForm from '../../components/Forms/LoginForm';
@@ -64,15 +65,25 @@ class Login extends React.Component {
     this.captcha = token;
   }
 
+  Logo() {
+    const { context } = this.props;
+    if (!context.logoURL) {
+      return null;
+    }
+    return <img src={context.logoURL} className={s.logo} alt="" />;
+  }
+
   render() {
     const {
       challenge,
+      context
     } = this.props;
 
     return (
       <Tag className={cn('container', s.login)}>
         <Row noGutters className={cn('mx-auto', s.card)}>
           <Tag className="form-group">
+            {this.Logo()}
             <span className={s.title}>Login</span>
           </Tag>
           <Tag className="form-group">
@@ -82,7 +93,11 @@ class Login extends React.Component {
             <hr />
           </Tag>
           <Tag className="form-group text-center">
-            <a className={s.link} href={`${staticPaths.signup}?lc=${challenge || ''}`}>Create an account</a>
+            <a
+              style={{
+                color: `${context.secondaryColor || '#000000'} !important`
+              }}
+              className={s.link} href={`${staticPaths.signup}?lc=${challenge || ''}`}>Create an account</a>
           </Tag>
         </Row>
       </Tag>
@@ -97,4 +112,8 @@ Login.propTypes = {
   challenge: PropTypes.string.isRequired,
 };
 
-export default withStyles(s)(Login);
+Login.defaultProps = {
+  context: {}
+}
+
+export default withStyles(s)(withThemeProvider(Login));

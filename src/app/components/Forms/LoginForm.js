@@ -6,7 +6,7 @@ import { email } from '../../../common/regex';
 
 import { Tag } from '../Bootstrap/Grid';
 import { ValidationField } from './Fields/Input';
-import { BlueButton } from './Buttons';
+import { Button } from './Buttons';
 
 const validate = (values) => {
   const errors = {};
@@ -37,10 +37,11 @@ const LoginForm = (props) => {
       <Tag className="d-flex d-inline-flex align-items-stretch">
         <Field name="password" groupClass="w-100" label="Password" type="password" component={ValidationField} autocomplete="off" />
       </Tag>
-      <BlueButton
+      <Button
         type="submit"
         value="Log In"
         disabled={pristine || submitting}
+        loading={submitting}
       />
     </form>
   );

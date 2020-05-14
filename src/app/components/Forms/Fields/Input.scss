@@ -1,16 +1,17 @@
 @import '../../../assets/styles/variables';
 .light {
-  border: 1px solid #1820D3;
-  color: #1820D3;
+  border: 1.3px solid #1820D3;
+  color: black;
   background: #fff;
   font-size: $font-size-sm;
   height: 40px;
   border-radius: 10px;
   padding-left: 15px;
+  width: 100%;
 }
 
 .light::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: rgba(24, 33, 211, 0.637);
+  color: #4E4E4E;
   font-family: "Sailec", Helvetica, Arial, sans-serif !important;    
 }
 
