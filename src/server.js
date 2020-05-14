@@ -2,7 +2,7 @@
 /* eslint-disable no-useless-escape */
 import React from 'react';
 import ReactDOM from 'react-dom/server';
-import ReactHelmet from 'react-helmet';
+import { ReactHelmet } from 'react-helmet';
 import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';

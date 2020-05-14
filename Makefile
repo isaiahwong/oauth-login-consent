@@ -32,13 +32,13 @@ build-push:
 	make push-all
 
 set-image:
-	kubectl set image deployments/showcase-deployment showcase=$(IMAGE_NAME)
+	kubectl set image deployments/oauth-front-deployment oauth-front=$(IMAGE_NAME)
 
 set-image-latest:
-	kubectl set image deployments/showcase-deployment showcase=$(IMAGE_NAME):latest
+	kubectl set image deployments/oauth-front-deployment oauth-front=$(IMAGE_NAME):latest
 
 set-image-sha:
-	kubectl set image deployments/showcase-deployment showcase=$(IMAGE_NAME):$(BUILD_ID)
+	kubectl set image deployments/oauth-front-deployment oauth-front=$(IMAGE_NAME):$(BUILD_ID)
 
 docker-compose:
 	docker-compose -f docker-compose.yml -f quickstart-postgres.yml up --build

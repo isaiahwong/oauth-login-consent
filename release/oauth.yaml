@@ -79,3 +79,7 @@ data:
   ACCOUNTS_SERVICE_ADDR: "api-accounts-v1-accountsservice.default.svc.cluster.local:5000"
   ACCOUNTS_SERVICE_DEADLINE: "10000" #10 sec
   PUBLIC_URL: "/auth"
+  PRIMARY_COLOR: "#9FD9E1"
+  SECONDARY_COLOR: "#000000"
+  BORDER_COLOR: "#000000"
+  LOGO_URL: "https://storage.googleapis.com/cander-assets/brand/cander.png"
