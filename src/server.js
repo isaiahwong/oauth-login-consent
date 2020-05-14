@@ -2,7 +2,7 @@
 /* eslint-disable no-useless-escape */
 import React from 'react';
 import ReactDOM from 'react-dom/server';
-import { ReactHelmet } from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
@@ -80,7 +80,7 @@ class Server {
       data.siteName = config.client.siteName;
       data.url = originalUrl;
 
-      const reactHelmet = ReactHelmet.renderStatic();
+      const reactHelmet = Helmet.renderStatic();
 
       data.helmet = reactHelmet;
       data.styles = [{ id: 'css', cssText: [...css].join('') }];

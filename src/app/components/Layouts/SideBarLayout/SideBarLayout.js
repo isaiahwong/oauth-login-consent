@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/withStyles';
 import cn from 'classnames';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 
 // external-global styles must be imported in your JS.
 import theme from '../../../assets/styles/theme.scss';
