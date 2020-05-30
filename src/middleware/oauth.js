@@ -270,6 +270,10 @@ app.post('/auth/signup', async (req, res) => {
     res.json(resp);
   }
   catch (err) {
+    if (err.errors) {
+      res.status(401).json(err.errors);
+      return;
+    }
     logger.error(err);
     res.status(403).json();
   }

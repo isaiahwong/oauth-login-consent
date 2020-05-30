@@ -4,6 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/withStyles';
 import cn from 'classnames';
+import { SubmissionError } from 'redux-form';
 
 import { staticPaths } from '../../routes';
 
@@ -14,7 +15,6 @@ import s from './Signup.scss';
 import SignupForm from '../../components/Forms/SignupForm';
 
 class Signup extends React.Component {
-
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
@@ -93,11 +93,16 @@ class Signup extends React.Component {
             <hr />
           </Tag>
           <Tag className="form-group text-center">
-            <a 
-            style={{
-              color: `${context.secondaryColor || '#000000'} !important`
-            }}
-            className={s.link} href={`${staticPaths.login}?lc=${challenge || ''}`}>Already a member? Log in</a>
+            <a
+              style={{
+                color: `${context.secondaryColor || '#000000'} !important`
+              }}
+              className={s.link}
+              href={`${staticPaths.login}?lc=${challenge || ''}`}
+            >
+              Already a member? Log in
+
+            </a>
           </Tag>
         </Row>
       </Tag>
@@ -114,7 +119,7 @@ Signup.propTypes = {
 
 Signup.defaultProps = {
   context: {}
-}
+};
 
 
 export default withStyles(s)(withThemeProvider(Signup));
