@@ -288,6 +288,7 @@ app.get('/auth/consent/challenge', async (req, res, next) => {
     const metadata = AccountsService.getMetadataHeaders(req.headers, matchHeaders);
     const resp = await service.consentWithChallenge(null, metadata);
     res.redirect(resp.redirect_to);
+
   }
   catch (err) {
     next(err);

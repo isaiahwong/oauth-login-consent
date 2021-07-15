@@ -16,7 +16,7 @@ RUN npm run build -- --release
 FROM node:8-alpine
 WORKDIR /app
 COPY ./package.json ./
-COPY ./proto ./proto
+COPY ./api ./api
 COPY ./locales ./locales
 
 RUN npm install --production

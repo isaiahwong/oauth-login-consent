@@ -4,11 +4,11 @@ import _GrpcClient from './GrpcClient';
 
 const Client = __PROD__ ? GrpcClient : _GrpcClient;
 
-const FILE = '/accounts/v1/accounts.proto';
-const PROTO = `${__dirname}/../proto/api`;
+const FILE = '/ecosystem/accounts/v1/accounts.proto';
+const PROTO = `${__dirname}/../api`;
 const INCLUDES = [
   PROTO,
-  `${__dirname}/../proto/third_party/googleapis`,
+  `${__dirname}/../api/third_party/googleapis`,
 ];
 const defaultRetries = {
   rpcMaxRetries: 5,
