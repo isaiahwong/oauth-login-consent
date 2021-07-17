@@ -1,4 +1,4 @@
-import grpc from 'grpc';
+import * as grpc from '@grpc/grpc-js';
 import { GrpcClient } from 'grpc-utils';
 import _GrpcClient from './GrpcClient';
 

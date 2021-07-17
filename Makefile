@@ -1,5 +1,5 @@
 BUILD_ID := $(shell git rev-parse --short HEAD 2>/dev/null || echo no-commit-id)
-IMAGE_NAME := registry.gitlab.com/isaiahwong/cluster/client/oauth
+IMAGE_NAME := registry.gitlab.com/eco_system/oauth-login
 VERSION := 0.0.1
 
 .PHONY: build

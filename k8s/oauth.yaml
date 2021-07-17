@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: oauth-front
-        image: registry.gitlab.com/isaiahwong/cluster/client/oauth
+        image: registry.gitlab.com/eco_system/oauth-login
         imagePullPolicy: IfNotPresent
         ports:
         - name: oauth-port

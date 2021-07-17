@@ -7,7 +7,7 @@ RUN apk add --update --no-cache \
 
 WORKDIR /app
 COPY ./package.json .
-RUN npm i
+RUN npm i --force
 WORKDIR .
 COPY . .
 ENV PUBLIC_URL=/auth

@@ -1,4 +1,4 @@
-import grpc from 'grpc';
+import * as grpc from '@grpc/grpc-js';
 import logger from 'esther';
 import { InternalServerError, ServiceUnavailable } from 'horeb';
 
@@ -149,8 +149,8 @@ class GrpcClient {
           if (err) {
             if (
               err.metadata
-                && err.metadata.get
-                && err.metadata.get('errors-bin').length
+              && err.metadata.get
+              && err.metadata.get('errors-bin').length
             ) {
               try {
                 const errors = decodeMetadata('errors', err.metadata);
@@ -182,9 +182,9 @@ class GrpcClient {
         const options = args[2];
         if (
           extend
-            && options
-            && options.deadline
-            && typeof options.deadline === 'number'
+          && options
+          && options.deadline
+          && typeof options.deadline === 'number'
         ) {
           // extends grpc calld deadline
           // eslint-disable-next-line no-param-reassign
