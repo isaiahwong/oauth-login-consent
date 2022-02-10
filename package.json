@@ -96,7 +96,7 @@
     "lint-staged": "^7.3.0",
     "markdown-it": "^8.4.2",
     "mkdirp": "^0.5.1",
-    "node-sass": "^6.0.1",
+    "node-sass": "^7.0.0",
     "null-loader": "^0.1.1",
     "opn-cli": "^1.0.0",
     "pixrem": "^4.0.1",
